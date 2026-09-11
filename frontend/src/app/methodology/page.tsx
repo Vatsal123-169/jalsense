@@ -28,13 +28,13 @@ export default function MethodologyPage() {
         <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
           <h3 className="font-bold text-base text-cyan-400 font-mono">1. Froehlich (2008) Breach Width Formulation</h3>
           <p className="text-xs text-slate-300 leading-relaxed">
-            Estimates average breach width $B_w$ (meters) based on reservoir volume $V$ ($m^3$), breach depth $H_b$ ($m$), and failure mode multiplier $K_o$.
+            {'Estimates average breach width B_w (meters) based on reservoir volume V (m³), breach depth H_b (m), and failure mode multiplier K_o.'}
           </p>
           <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-sm text-cyan-300 text-center">
-            B_w = 0.027 \cdot K_o \cdot V^{0.32} \cdot H_b^{0.19}
+            {'B_w = 0.027 · K_o · V^0.32 · H_b^0.19'}
           </div>
           <div className="text-[11px] text-slate-400 font-mono">
-            Where $K_o = 1.3$ for overtopping failure and $K_o = 1.0$ for piping internal erosion failure.
+            {'Where K_o = 1.3 for overtopping failure and K_o = 1.0 for piping internal erosion failure.'}
           </div>
         </div>
 
@@ -42,10 +42,10 @@ export default function MethodologyPage() {
         <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
           <h3 className="font-bold text-base text-amber-400 font-mono">2. Breach Formation Time t_b</h3>
           <p className="text-xs text-slate-300 leading-relaxed">
-            Calculates full breach development duration $t_b$ (hours).
+            Calculates full breach development duration t_b (hours).
           </p>
           <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-sm text-amber-300 text-center">
-            t_b = 0.0177 \cdot V^{0.53} \cdot H^{-0.90}
+            {'t_b = 0.0177 · V^0.53 · H^-0.90'}
           </div>
         </div>
 
@@ -53,10 +53,10 @@ export default function MethodologyPage() {
         <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
           <h3 className="font-bold text-base text-rose-400 font-mono">3. Peak Outflow Discharge Q_peak</h3>
           <p className="text-xs text-slate-300 leading-relaxed">
-            Determines peak breach outflow discharge $Q_{peak}$ ($m^3/s$) using MacDonald & Langridge-Monopolis and Froehlich formulations.
+            {'Determines peak breach outflow discharge Q_peak (m³/s) using MacDonald & Langridge-Monopolis and Froehlich formulations.'}
           </p>
           <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-sm text-rose-300 text-center">
-            Q_{peak} = 0.607 \cdot \left(\frac{C_d}{0.6}\right) \cdot V^{0.295} \cdot H^{1.24} + Q_{inflow}
+            {'Q_peak = 0.607 · (C_d / 0.6) · V^0.295 · H^1.24 + Q_inflow'}
           </div>
         </div>
 
@@ -64,10 +64,10 @@ export default function MethodologyPage() {
         <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
           <h3 className="font-bold text-base text-emerald-400 font-mono">4. Wave Speed & Depth Attenuation</h3>
           <p className="text-xs text-slate-300 leading-relaxed">
-            Translates wave celerity $c = \sqrt{g h} + v$ downstream along the river hydro-channel and computes depth attenuation $D(x,t)$.
+            {'Translates wave celerity c = √(g h) + v downstream along the river hydro-channel and computes depth attenuation D(x,t).'}
           </p>
           <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-sm text-emerald-300 text-center">
-            D(x) = D_0 \cdot \left(\frac{x_0}{x + x_0}\right)^{0.6}
+            {'D(x) = D_0 · (x_0 / (x + x_0))^0.6'}
           </div>
         </div>
       </div>

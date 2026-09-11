@@ -8,7 +8,7 @@ import { MapViewer } from '@/components/gis/MapViewer';
 import { HydrographChart } from '@/components/charts/HydrographChart';
 import { DepthProfileChart } from '@/components/charts/DepthProfileChart';
 import { ImpactMetrics } from '@/components/metrics/ImpactMetrics';
-import { Play, Pause, RotateCcw, FileText, Download, BellAlert } from 'lucide-react';
+import { Play, Pause, RotateCcw, Download } from 'lucide-react';
 
 export default function SimulationWorkspacePage() {
   const [scenario, setScenario] = useState<Scenario>(PRESET_SCENARIOS.rishiganga);
@@ -164,7 +164,10 @@ export default function SimulationWorkspacePage() {
             params={params}
             onScenarioChange={handleScenarioSelect}
             onParamChange={handleParamChange}
-            onRunSimulation={() => {}}
+            onRunSimulation={() => {
+              setCurrentTimeHours(0.0);
+              setIsPlaying(true);
+            }}
             onReset={handleReset}
           />
         </div>

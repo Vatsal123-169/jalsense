@@ -1,4 +1,4 @@
-import { Scenario, SimulationResult, DatasetItem } from '@/types';
+import { DownstreamNode, Scenario, SimulationResult } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
@@ -187,14 +187,14 @@ export function calculateLocalSimulation(
 
   // Calculate Spatial Inundation Polygon
   const polyCoords: Array<[number, number]> = [];
-  if (currentTime > 0 && scenario.riverPath.length > 1) {
+  if (currentTime > 0 && scenario.river_path.length > 1) {
     const maxReachKm = currentTime * 18;
-    const flooded: Array<[number, number]> = [scenario.riverPath[0]];
+    const flooded: Array<[number, number]> = [scenario.river_path[0]];
     let accum = 0;
 
-    for (let i = 1; i < scenario.riverPath.length; i++) {
-      const p1 = scenario.riverPath[i - 1];
-      const p2 = scenario.riverPath[i];
+    for (let i = 1; i < scenario.river_path.length; i++) {
+      const p1 = scenario.river_path[i - 1];
+      const p2 = scenario.river_path[i];
       const segKm = Math.sqrt(Math.pow((p2[0] - p1[0]) * 111, 2) + Math.pow((p2[1] - p1[1]) * 111, 2));
 
       if (accum + segKm <= maxReachKm) {

@@ -6,7 +6,7 @@ import { PRESET_SCENARIOS, calculateLocalSimulation } from '@/lib/api';
 import { ImpactMetrics } from '@/components/metrics/ImpactMetrics';
 import { MapViewer } from '@/components/gis/MapViewer';
 import { HydrographChart } from '@/components/charts/HydrographChart';
-import { Play, ShieldAlert, Layers, Activity, FileText, ArrowUpRight, BellAlert } from 'lucide-react';
+import { Play, Layers, Bell } from 'lucide-react';
 
 export default function DashboardPage() {
   const [selectedScenarioKey, setSelectedScenarioKey] = useState<string>('rishiganga');
@@ -40,7 +40,7 @@ export default function DashboardPage() {
   };
 
   const handleBroadcastAlert = () => {
-    alert(`🚨 [CAP DISASTER BROADCAST PROTOCOL DISPATCHED]\n\nEvent: DAM BREACH FLOOD SURGE\nDam: ${scenario.dam_name}\nPeak Discharge: ${simResult.impact_metrics.peak_discharge_cms} m³/s\nPopulation at Risk: ${simResult.impact_metrics.population_at_risk.toLocaleString()}\n\nEmergency CAP alert transmitted to NDMA, SDMA, and District Collectors.`);
+    alert(`DEMO ADVISORY PREVIEW\n\nEvent: Dam-breach flood surge\nDam: ${scenario.dam_name}\nPeak discharge: ${simResult.impact_metrics.peak_discharge_cms} m³/s\nPopulation at risk: ${simResult.impact_metrics.population_at_risk.toLocaleString()}\n\nThis preview does not notify emergency services or transmit a CAP alert.`);
   };
 
   return (
@@ -67,8 +67,8 @@ export default function DashboardPage() {
             onClick={handleBroadcastAlert}
             className="bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg shadow-rose-600/30 flex items-center gap-2 transition-all"
           >
-            <BellAlert className="w-4 h-4 animate-bounce" />
-            Dispatch CAP Alert
+            <Bell className="w-4 h-4" />
+            Preview Advisory
           </button>
           <Link
             href="/simulation"
