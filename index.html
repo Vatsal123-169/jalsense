@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYDRO-INUNDATION 360° | Dam Break Modelling Platform (SIH26161 - NTRO)</title>
+  <meta name="description" content="Hydrodynamic dam break inundation modeling platform for disaster management, flood wave propagation, and early warning dispatch. Sponsored by NTRO for SIH 2026.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet GIS Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="brand-container">
+      <div class="brand-logo">🌊</div>
+      <div>
+        <div class="brand-title">HYDRO-INUNDATION 360°</div>
+        <div class="brand-subtitle">Hydrodynamic Modelling & Emergency Command System</div>
+      </div>
+    </div>
+
+    <div class="nav-badges">
+      <span class="badge badge-ntro">SIH PROBLEM CODE: 26161</span>
+      <span class="badge badge-ntro">ORG: NTRO DISASTER CELL</span>
+      <span class="badge badge-live">
+        <span class="pulse-dot"></span> LIVE ENGINE ACTIVE
+      </span>
+    </div>
+  </header>
+
+  <!-- Main Command Dashboard Grid -->
+  <main class="dashboard-grid">
+
+    <!-- LEFT SIDEBAR: Hydrodynamic Controls & Scenario Parameters -->
+    <aside class="panel">
+      <div class="panel-header">
+        <h2 class="panel-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Physics & Breach Parameters
+        </h2>
+      </div>
+
+      <div class="panel-body">
+        <!-- Scenario Preset Selector -->
+        <div class="control-group">
+          <div class="control-label">
+            <span>Preset River Scenarios</span>
+            <span class="badge badge-ntro">PRESETS</span>
+          </div>
+          <div class="scenario-pills">
+            <button class="btn-pill btn-scenario active" data-scenario="rishiganga">Rishi Ganga</button>
+            <button class="btn-pill btn-scenario" data-scenario="teesta">Teesta Stage-III</button>
+            <button class="btn-pill btn-scenario" data-scenario="bhakra">Bhakra Dam</button>
+          </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 16px 0;">
+
+        <!-- Failure Mode Selector -->
+        <div class="control-group">
+          <div class="control-label">
+            <span>Breach Failure Mode</span>
+          </div>
+          <select id="failureMode" class="select-input">
+            <option value="overtopping" selected>Overtopping Failure (Glacial Surge / PMF Flood)</option>
+            <option value="piping">Internal Erosion / Piping Failure</option>
+          </select>
+        </div>
+
+        <!-- Dam Height H -->
+        <div class="control-group">
+          <div class="control-label">
+            <span>Dam Height (H)</span>
+            <span class="control-value"><span id="damHeightVal">48</span> m</span>
+          </div>
+          <input type="range" id="damHeight" class="slider-input" min="10" max="250" value="48" step="1">
+        </div>
+
+        <!-- Storage Volume V -->
+        <div class="control-group">
+          <div class="control-label">
+            <span>Reservoir Volume (V)</span>
+            <span class="control-value"><span id="storageVolumeVal">65</span> MCM</span>
+          </div>
+          <input type="range" id="storageVolume" class="slider-input" min="5" max="10000" value="65" step="5">
+        </div>
+
+        <!-- Breach Top Width Bw -->
+        <div class="control-group">
+          <div class="control-label">
+            <span>Breach Width (B<sub>w</sub>)</span>
+            <span class="control-value"><span id="breachWidthVal">120</span> m</span>
+          </div>
+          <input type="range" id="breachWidth" class="slider-input" min="20" max="600" value="120" step="5">
+        </div>
+
+        <!-- Formation Time tb -->
+        <div class="control-group">
+          <div class="control-label">
+            <span>Breach Formation Time (t<sub>b</sub>)</span>
+            <span class="control-value"><span id="breachTimeVal">0.8</span> hrs</span>
+          </div>
+          <input type="range" id="breachTime" class="slider-input" min="0.1" max="5.0" value="0.8" step="0.1">
+        </div>
+
+        <!-- Inflow Discharge Q_in -->
+        <div class="control-group">
+          <div class="control-label">
+            <span>Base River Inflow (Q<sub>in</sub>)</span>
+            <span class="control-value"><span id="riverInflowVal">200</span> m³/s</span>
+          </div>
+          <input type="range" id="riverInflow" class="slider-input" min="50" max="2000" value="200" step="50">
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 16px 0;">
+
+        <!-- Action Trigger Buttons -->
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <button id="btnBroadcastAlert" class="btn-action btn-danger" style="width: 100%; justify-content: center;">
+            🚨 Dispatch Early Warning CAP Alert
+          </button>
+          <button id="btnExportReport" class="btn-action" style="width: 100%; justify-content: center; background: #1e293b; color: var(--text-main); border: 1px solid var(--border-subtle); box-shadow: none;">
+            📄 Generate Executive Assessment Report
+          </button>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- CENTER COLUMN: Interactive GIS Map & Timeline Scrubber -->
+    <section class="center-column">
+      
+      <!-- Interactive Leaflet GIS Map Container -->
+      <div class="map-container">
+        <div id="map"></div>
+
+        <!-- Map Top Overlay -->
+        <div class="map-overlay-top">
+          <div class="overlay-card">
+            <span style="color: var(--color-hydro); font-weight: 700;">HYDRO-GIS VECTOR:</span> 1D/2D Shallow Water Equations Active
+          </div>
+        </div>
+
+        <!-- Map Bottom Legend -->
+        <div class="map-legend">
+          <div class="legend-title">Inundation Risk Legend</div>
+          <div class="legend-item">
+            <span>Extreme Hazard (>4m)</span>
+            <span class="legend-color" style="background: #ff3b5c; box-shadow: 0 0 6px #ff3b5c;"></span>
+          </div>
+          <div class="legend-item">
+            <span>High Risk (2 - 4m)</span>
+            <span class="legend-color" style="background: #ffb703;"></span>
+          </div>
+          <div class="legend-item">
+            <span>Surge Corridor (<2m)</span>
+            <span class="legend-color" style="background: #00f2fe;"></span>
+          </div>
+          <div class="legend-item">
+            <span>Safe Settlement Zone</span>
+            <span class="legend-color" style="background: #10b981;"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulation Playback & Timeline Controls -->
+      <div class="playback-bar">
+        <button id="btnPlay" class="btn-action">
+          ▶️ Play Simulation
+        </button>
+        <button id="btnReset" class="btn-icon" title="Reset Timeline">
+          🔄
+        </button>
+
+        <div class="timeline-slider-wrapper">
+          <div class="time-display">
+            <span>BREACH TIMELINE SCRUBBER</span>
+            <span id="timeLabel" style="color: var(--color-hydro); font-weight: 700;">T+0.0h</span>
+          </div>
+          <input type="range" id="timelineSlider" class="slider-input" min="0" max="24" value="0" step="0.25">
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT SIDEBAR: Telemetry Metrics & Dynamic Charts -->
+    <aside class="panel">
+      <div class="panel-header">
+        <h2 class="panel-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Telemetry & Impact Analytics
+        </h2>
+      </div>
+
+      <div class="panel-body">
+        
+        <!-- Live Alert Banner -->
+        <div class="alert-banner">
+          <div style="font-size: 1.2rem;">⚡</div>
+          <div>
+            <div class="alert-title">STATUS BULLETIN</div>
+            <div id="alertBannerText" class="alert-desc">
+              NORMAL STATE: Advance timeline scrubber or adjust parameters to run numerical simulation.
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Stats Grid -->
+        <div class="metrics-grid">
+          <div class="stat-card stat-danger">
+            <div class="stat-label">Peak Discharge (Q<sub>peak</sub>)</div>
+            <div class="stat-value"><span id="metricQpeak">14,250</span> <span class="stat-unit">m³/s</span></div>
+          </div>
+          <div class="stat-card stat-danger">
+            <div class="stat-label">Population at Risk (PAR)</div>
+            <div class="stat-value"><span id="metricPAR">0</span> <span class="stat-unit">persons</span></div>
+          </div>
+          <div class="stat-card stat-warning">
+            <div class="stat-label">Submerged Land Area</div>
+            <div class="stat-value"><span id="metricArea">0</span> <span class="stat-unit">km²</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Max Wave Depth</div>
+            <div class="stat-value"><span id="metricMaxDepth">0.0</span> <span class="stat-unit">m</span></div>
+          </div>
+        </div>
+
+        <!-- Chart 1: Outflow Hydrograph -->
+        <div style="margin-bottom: 16px;">
+          <div class="control-label">
+            <span>Outflow Breach Hydrograph Q(t)</span>
+            <span class="badge badge-ntro">FROEHLICH MODEL</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="hydrographChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Downstream Profile -->
+        <div>
+          <div class="control-label">
+            <span>Downstream Depth & Velocity Profile</span>
+            <span class="badge badge-live">DYNAMIC</span>
+          </div>
+          <div class="chart-container">
+            <canvas id="depthChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Executive Assessment Report Modal -->
+  <div id="reportModal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--color-hydro); display: flex; align-items: center; gap: 8px;">
+          📋 NATIONAL TECHNICAL RESEARCH ORGANISATION (NTRO) - HYDRO-INUNDATION EXECUTIVE BRIEFING
+        </h3>
+        <button id="btnCloseModal" class="close-btn">&times;</button>
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
+        Hydrodynamic Breach & Inundation Simulation Summary for <b>SIH26161</b> Disaster Preparedness Protocol.
+      </p>
+
+      <div style="background: #1e293b; padding: 14px; border-radius: 8px; margin-bottom: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 0.82rem;">
+        <div>Dam/Reservoir: <b id="reportDamName" style="color: var(--text-main)">-</b></div>
+        <div>Peak Discharge (Q<sub>peak</sub>): <b id="reportQpeak" style="color: var(--color-danger)">-</b></div>
+        <div>Breach Width: <b id="reportBreachWidth" style="color: var(--color-hydro)">-</b></div>
+      </div>
+
+      <h4 style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 8px;">Downstream Settlement Impact & Evacuation Matrix</h4>
+      
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>Settlement Node</th>
+            <th>Dist (km)</th>
+            <th>Arrival (T+)</th>
+            <th>Peak Depth</th>
+            <th>Velocity</th>
+            <th>PAR</th>
+            <th>Risk Level</th>
+          </tr>
+        </thead>
+        <tbody id="reportTableBody">
+          <!-- Dynamic JS rows -->
+        </tbody>
+      </table>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button onclick="window.print()" class="btn-action" style="background: var(--color-hydro); color: #000;">
+          🖨️ Print / Save PDF Briefing
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet GIS Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Application Modules -->
+  <script src="js/hydro-engine.js"></script>
+  <script src="js/map-viz.js"></script>
+  <script src="js/chart-viz.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
