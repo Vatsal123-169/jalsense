@@ -1,0 +1,7 @@
+# Add to your existing app/main.py
+
+from app.routes import construction_validation_routes
+
+app.include_router(construction_validation_routes.router)
+
+# Now available at: POST /api/validate/construction
