@@ -1,0 +1,599 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #050505;
+    color: #ffffff;
+    font-family: "Inter", sans-serif;
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.grid-background {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+
+    background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+
+    background-size: 60px 60px;
+}
+
+.glow {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(150px);
+    opacity: 0.08;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.glow-one {
+    background: white;
+    top: -250px;
+    left: -200px;
+}
+
+.glow-two {
+    background: #888;
+    bottom: -250px;
+    right: -200px;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    height: 85px;
+    padding: 0 7%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    background: rgba(5,5,5,0.75);
+    backdrop-filter: blur(15px);
+
+    position: relative;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.logo-x {
+    font-size: 34px;
+    font-weight: 800;
+    transform: skew(-12deg);
+    display: inline-block;
+}
+
+.logo-text {
+    font-size: 17px;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 38px;
+}
+
+.navbar nav a {
+    color: #888;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+
+    transition: 0.3s;
+}
+
+.navbar nav a:hover,
+.navbar nav a.active {
+    color: white;
+}
+
+.nav-button {
+    text-decoration: none;
+    color: #050505;
+
+    background: white;
+
+    padding: 11px 20px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    transition: 0.3s;
+}
+
+.nav-button:hover {
+    background: #cfcfcf;
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.developers {
+    width: 86%;
+    max-width: 1400px;
+    margin: auto;
+
+    padding: 110px 0 80px;
+}
+
+
+/* =========================
+   HEADING
+========================= */
+
+.heading {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 80px;
+}
+
+.small-heading {
+    color: #888;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.small-heading span {
+    width: 35px;
+    height: 1px;
+    background: #555;
+}
+
+.heading h1 {
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: clamp(48px, 7vw, 90px);
+
+    line-height: 0.95;
+
+    letter-spacing: -4px;
+    font-weight: 700;
+}
+
+.heading h1 span {
+    color: transparent;
+
+    -webkit-text-stroke: 1px white;
+}
+
+.heading p {
+    margin: 30px auto 0;
+
+    max-width: 600px;
+
+    color: #777;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   TEAM GRID
+========================= */
+
+.team-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.developer-card {
+    position: relative;
+
+    min-height: 510px;
+
+    background: rgba(12,12,12,0.85);
+
+    border: 1px solid rgba(255,255,255,0.09);
+
+    padding: 28px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.4s ease,
+        border-color 0.4s ease,
+        background 0.4s ease;
+}
+
+.developer-card:hover {
+    transform: translateY(-8px);
+
+    border-color: rgba(255,255,255,0.35);
+
+    background: rgba(20,20,20,0.95);
+}
+
+
+/* Corner */
+
+.developer-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 45px;
+    height: 45px;
+
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+
+    opacity: 0.5;
+
+    transition: 0.4s;
+}
+
+.developer-card:hover::before {
+    width: 70px;
+    height: 70px;
+}
+
+
+/* Number */
+
+.number {
+    position: absolute;
+
+    top: 25px;
+    right: 27px;
+
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: 12px;
+
+    color: #555;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   PHOTO
+========================= */
+
+.photo-container {
+    width: 100%;
+    height: 260px;
+
+    margin-bottom: 25px;
+
+    overflow: hidden;
+
+    background: #111;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    position: relative;
+}
+
+.photo-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #151515,
+            #080808
+        );
+
+    position: relative;
+}
+
+.photo-placeholder::before {
+    content: "";
+
+    position: absolute;
+
+    width: 140px;
+    height: 140px;
+
+    border: 1px solid #333;
+
+    border-radius: 50%;
+}
+
+.photo-placeholder::after {
+    content: "";
+
+    position: absolute;
+
+    width: 60px;
+    height: 60px;
+
+    border: 1px solid #444;
+
+    border-radius: 50%;
+
+    transform: translateY(-30px);
+}
+
+.photo-placeholder span {
+    position: absolute;
+
+    bottom: 18px;
+
+    font-size: 9px;
+    letter-spacing: 4px;
+
+    color: #555;
+}
+
+
+/* =========================
+   MEMBER INFO
+========================= */
+
+.member-info h2 {
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: 23px;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 7px;
+}
+
+.member-info h3 {
+    font-size: 11px;
+
+    color: #aaa;
+
+    font-weight: 600;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 17px;
+}
+
+.member-info p {
+    color: #666;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+    max-width: 330px;
+}
+
+
+/* =========================
+   CARD LINE
+========================= */
+
+.card-line {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 0;
+    height: 2px;
+
+    background: white;
+
+    transition: 0.5s;
+}
+
+.developer-card:hover .card-line {
+    width: 100%;
+}
+
+
+/* =========================
+   TEAM STATEMENT
+========================= */
+
+.team-statement {
+    text-align: center;
+
+    padding: 120px 20px 60px;
+}
+
+.statement-line {
+    width: 1px;
+    height: 70px;
+
+    background: #444;
+
+    margin: 0 auto 35px;
+}
+
+.team-statement h2 {
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: clamp(35px, 5vw, 65px);
+
+    letter-spacing: -2px;
+}
+
+.team-statement h2 span {
+    color: transparent;
+
+    -webkit-text-stroke: 1px white;
+}
+
+.team-statement p {
+    margin-top: 18px;
+
+    color: #666;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    padding: 35px 7%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #555;
+
+    font-size: 11px;
+}
+
+.footer-logo {
+    color: #aaa;
+
+    font-family: "Space Grotesk", sans-serif;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.footer-x {
+    color: white;
+
+    font-size: 20px;
+
+    transform: skew(-12deg);
+
+    display: inline-block;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .navbar nav {
+        gap: 20px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .navbar {
+        padding: 0 5%;
+    }
+
+    .navbar nav {
+        display: none;
+    }
+
+    .nav-button {
+        padding: 9px 15px;
+    }
+
+    .developers {
+        width: 90%;
+        padding-top: 80px;
+    }
+
+    .heading {
+        margin-bottom: 55px;
+    }
+
+    .heading h1 {
+        letter-spacing: -2px;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .developer-card {
+        min-height: 490px;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+}
+.photo-container {
+    width: 100%;
+    height: 260px;
+    /* overflow: hidden; */
+    background: #111;
+    }
+
+    .photo-container img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    }
