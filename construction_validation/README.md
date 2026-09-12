@@ -1,6 +1,6 @@
 # Construction Validation
 
-A runnable web interface and API for validating dam construction and breach simulation inputs.
+A runnable web interface and API for validating dam construction and breach simulation inputs. The browser entry point is `construction_validation/index.html`; it is served at the site root when the local server is running.
 
 ## Run locally
 
