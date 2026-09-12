@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Construction Validation</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header><p class="eyebrow">FLOODSIM</p><h1>Construction validation</h1><p>Check dam, breach, and simulation inputs before starting a run.</p></header>
+      <form id="validation-form" novalidate>
+        <section><h2>Reservoir / Dam</h2><div class="grid">
+          <label>Dam name<input name="damName" type="text" required minlength="2" placeholder="Demo Valley Dam"></label>
+          <label>Dam height (m)<input name="damHeightM" type="number" required min="0.001" max="300" step="any" value="45"></label>
+          <label>Initial water level (m)<input name="initialWaterLevelM" type="number" required min="0.001" step="any" value="40"></label>
+          <label>Reservoir volume (m³)<input name="reservoirVolumeM3" type="number" required min="0.001" step="any" value="5000000"></label>
+          <label>Reservoir surface area (m²)<input name="reservoirSurfaceAreaM2" type="number" required min="0.001" step="any" value="250000"></label>
+          <label>Latitude (°)<input name="damLatitude" type="number" required min="-90" max="90" step="any" value="30.5"></label>
+          <label>Longitude (°)<input name="damLongitude" type="number" required min="-180" max="180" step="any" value="78.3"></label>
+        </div></section>
+        <section><h2>Breach parameters</h2><div class="grid">
+          <label>Final breach width (m)<input name="breachWidthM" type="number" required min="0.001" step="any" value="30"></label>
+          <label>Final breach depth (m)<input name="breachDepthM" type="number" required min="0.001" step="any" value="20"></label>
+          <label>Formation time (min)<input name="breachFormationTimeMin" type="number" required min="0.001" max="1440" step="any" value="30"></label>
+          <label>Discharge coefficient (Cd)<input name="dischargeCoefficientCd" type="number" required min="0.1" max="1" step="0.01" value="0.6"></label>
+        </div></section>
+        <section><h2>Simulation settings</h2><div class="grid">
+          <label>Scenario name<input name="scenarioName" type="text" required minlength="2" value="Moderate Breach"></label>
+          <label>Duration (min)<input name="simulationDurationMin" type="number" required min="0.001" max="10080" step="any" value="120"></label>
+          <label>Time step (sec)<input name="timeStepSec" type="number" required min="0.001" max="3600" step="any" value="10"></label>
+        </div></section>
+        <div id="result" role="status" aria-live="polite" hidden></div>
+        <button type="submit">Validate inputs</button>
+      </form>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

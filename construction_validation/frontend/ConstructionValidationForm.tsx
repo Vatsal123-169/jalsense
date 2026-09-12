@@ -70,8 +70,8 @@ export default function ConstructionValidationForm({
       });
       const result = await res.json();
 
-      if (!result.is_valid) {
-        setServerError(result.errors.join(" "));
+      if (!res.ok || !result.is_valid) {
+        setServerError(result.errors?.join(" ") || "Validation service rejected the request.");
         return;
       }
 

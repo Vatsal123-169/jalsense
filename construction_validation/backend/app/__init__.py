@@ -1,0 +1,1 @@
+"""Construction validation application package."""

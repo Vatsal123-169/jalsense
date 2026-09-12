@@ -25,7 +25,7 @@ def validate_construction_input(raw_input: dict) -> ConstructionValidationRespon
         validated = DamConstructionInput(**raw_input)
     except ValidationError as e:
         for err in e.errors():
-            field = ".".join(str(loc) for loc in err["loc"])
+            field = ".".join(str(loc) for loc in err["loc"]) or "input"
             errors.append(f"{field}: {err['msg']}")
         return ConstructionValidationResponse(is_valid=False, errors=errors, warnings=warnings)
 

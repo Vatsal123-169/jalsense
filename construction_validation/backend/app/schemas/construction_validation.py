@@ -11,10 +11,21 @@ This is a PROTOTYPE-level engineering sanity check, not a substitute for
 a validated hydraulic/structural review.
 """
 
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+
+def to_camel_case(field_name: str) -> str:
+    """Expose browser-friendly JSON while retaining Python snake_case fields."""
+    first, *rest = field_name.split("_")
+    return first + "".join(word.capitalize() for word in rest)
 
 
 class DamConstructionInput(BaseModel):
+    model_config = ConfigDict(
+        alias_generator=to_camel_case,
+        populate_by_name=True,
+        str_strip_whitespace=True,
+    )
     # --- Reservoir / Dam ---
     dam_name: str = Field(..., min_length=2, max_length=100)
     dam_height_m: float = Field(..., gt=0, le=300, description="Dam height in meters (0-300m)")
@@ -107,5 +118,5 @@ class DamConstructionInput(BaseModel):
 
 class ConstructionValidationResponse(BaseModel):
     is_valid: bool
-    errors: list[str] = []
-    warnings: list[str] = []
+    errors: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
