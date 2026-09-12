@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Construction Validation</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #07111f;
+        color: #e7eef9;
+      }
+      * { box-sizing: border-box; }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: radial-gradient(circle at 12% 0%, #153b55 0, transparent 35rem), #07111f;
+      }
+      .page { width: min(1000px, calc(100% - 32px)); margin: 52px auto 80px; }
+      header { max-width: 680px; margin: 0 auto 34px; text-align: center; }
+      .eyebrow { margin: 0; color: #67e8f9; font-size: .76rem; font-weight: 800; letter-spacing: .18em; }
+      h1 { margin: 8px 0 10px; color: #f8fbff; font-size: clamp(2.15rem, 5vw, 3.6rem); line-height: 1.05; }
+      header p:not(.eyebrow) { margin: 0; color: #a9b9cf; font-size: 1.04rem; line-height: 1.6; }
+      form { display: grid; gap: 18px; }
+      section {
+        padding: 25px;
+        border: 1px solid rgba(119, 165, 199, .26);
+        border-radius: 16px;
+        background: rgba(15, 30, 49, .86);
+        box-shadow: 0 14px 34px rgba(0, 0, 0, .16);
+      }
+      h2 { margin: 0 0 17px; color: #f3f8ff; font-size: 1.08rem; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 16px; }
+      label { display: grid; gap: 7px; color: #c7d5e8; font-size: .85rem; font-weight: 700; }
+      input {
+        width: 100%; min-height: 43px; padding: 10px 12px; border: 1px solid #3e5876;
+        border-radius: 8px; outline: none; background: #0a1728; color: #f4f8ff; font: inherit;
+        transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+      }
+      input::placeholder { color: #71839c; }
+      input:hover { border-color: #6380a0; }
+      input:focus { border-color: #22d3ee; box-shadow: 0 0 0 3px rgba(34, 211, 238, .17); background: #0c1b2f; }
+      button {
+        justify-self: center; min-width: 210px; border: 0; border-radius: 8px; padding: 13px 20px;
+        background: linear-gradient(135deg, #0891b2, #2563eb); color: white; font: inherit; font-weight: 800;
+        box-shadow: 0 8px 20px rgba(8, 145, 178, .25); cursor: pointer; transition: transform .15s ease, filter .15s ease;
+      }
+      button:hover { filter: brightness(1.12); transform: translateY(-1px); }
+      button:focus-visible { outline: 3px solid #a5f3fc; outline-offset: 3px; }
+      #result { padding: 13px 16px; border: 1px solid transparent; border-radius: 9px; font-size: .92rem; }
+      #result p { margin: 3px 0; }.success { background: #103a2c; border-color: #1f7656 !important; color: #bbf7d0; }
+      .warning { background: #463310; border-color: #916e1b !important; color: #fde68a; }.error { background: #491c27; border-color: #a9475c !important; color: #fecdd3; }
+      @media (max-width: 600px) { .page { width: min(100% - 22px, 1000px); margin-top: 32px; } section { padding: 18px; } }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header>
+        <p class="eyebrow">FLOODSIM</p>
+        <h1>Construction validation</h1>
+        <p>Check dam, breach, and simulation inputs before starting a run.</p>
+      </header>
+      <form id="validation-form" novalidate>
+        <section><h2>Reservoir / Dam</h2><div class="grid">
+          <label>Dam name<input name="damName" type="text" required minlength="2" placeholder="Demo Valley Dam"></label>
+          <label>Dam height (m)<input name="damHeightM" type="number" required min="0.001" max="300" step="any" value="45"></label>
+          <label>Initial water level (m)<input name="initialWaterLevelM" type="number" required min="0.001" step="any" value="40"></label>
+          <label>Reservoir volume (m³)<input name="reservoirVolumeM3" type="number" required min="0.001" step="any" value="5000000"></label>
+          <label>Reservoir surface area (m²)<input name="reservoirSurfaceAreaM2" type="number" required min="0.001" step="any" value="250000"></label>
+          <label>Latitude (°)<input name="damLatitude" type="number" required min="-90" max="90" step="any" value="30.5"></label>
+          <label>Longitude (°)<input name="damLongitude" type="number" required min="-180" max="180" step="any" value="78.3"></label>
+        </div></section>
+        <section><h2>Breach parameters</h2><div class="grid">
+          <label>Final breach width (m)<input name="breachWidthM" type="number" required min="0.001" step="any" value="30"></label>
+          <label>Final breach depth (m)<input name="breachDepthM" type="number" required min="0.001" step="any" value="20"></label>
+          <label>Formation time (min)<input name="breachFormationTimeMin" type="number" required min="0.001" max="1440" step="any" value="30"></label>
+          <label>Discharge coefficient (Cd)<input name="dischargeCoefficientCd" type="number" required min="0.1" max="1" step="0.01" value="0.6"></label>
+        </div></section>
+        <section><h2>Simulation settings</h2><div class="grid">
+          <label>Scenario name<input name="scenarioName" type="text" required minlength="2" value="Moderate Breach"></label>
+          <label>Duration (min)<input name="simulationDurationMin" type="number" required min="0.001" max="10080" step="any" value="120"></label>
+          <label>Time step (sec)<input name="timeStepSec" type="number" required min="0.001" max="3600" step="any" value="10"></label>
+        </div></section>
+        <div id="result" role="status" aria-live="polite" hidden></div>
+        <button type="submit">Validate inputs</button>
+      </form>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
